@@ -5,6 +5,7 @@ Project using AI to avoid drivers sleeping while driving. This project has been 
 ## Links
 
 - https://saturdays.ai/
+- https://eyes-on-the-road.slack.com/
 
 ## Contributors
 
