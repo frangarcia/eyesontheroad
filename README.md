@@ -1,6 +1,6 @@
 # Eyes on the road
 
-Project using AI to avoid drivers sleeping while driving. This project has been designed and developed as part of the training followed for Saturdays AI.
+Project using AI to avoid drivers sleeping while driving. This project has been designed and developed as part of the training followed for Saturdays AI https://saturdays.ai/.
 
 ## Links
 
