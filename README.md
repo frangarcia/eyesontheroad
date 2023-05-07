@@ -2,6 +2,8 @@
 
 Project using AI to avoid drivers sleeping while driving. This project has been designed and developed as part of the training followed for Saturdays AI https://saturdays.ai/.
 
+You can visit the project website at https://frangarcia.github.io/eyesontheroad/
+
 ## Links
 
 - https://saturdays.ai/
