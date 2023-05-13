@@ -1,3 +1,7 @@
 .idea
 .DS_Store
 /hyper_parameters/eyes_on_the_road/
+
+datasets/dmd/Raw/
+
+datasets/dmd/Labels/
