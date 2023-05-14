@@ -10,6 +10,16 @@ json_folder = 'dmd/raw'
 output_dir = 'dmd/labels'
 os.makedirs(output_dir, exist_ok=True)
 
+
+# Function to sanitize folder names
+def sanitize_folder_name(folder_name):
+    # Replace invalid characters with underscores
+    folder_name = re.sub(r'[<>:"/\\|?*]', '_', folder_name)
+    # Remove leading and trailing whitespaces
+    folder_name = folder_name.strip()
+    return folder_name
+
+
 # Process each JSON file in the folder
 for filename in os.listdir(json_folder):
     if filename.endswith('.json'):
