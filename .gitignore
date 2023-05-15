@@ -5,3 +5,5 @@
 datasets/dmd/Raw/
 
 datasets/dmd/Labels/
+
+hp/cnn_model/
