@@ -27,8 +27,8 @@ from time import sleep
 # Visualization parameters
 _ROW_SIZE = 20  # pixels
 _LEFT_MARGIN = 24  # pixels
-_TEXT_COLOR = (0, 0, 255)  # red
-_FONT_SIZE = 1
+_TEXT_COLOR = (255, 255, 255)  # black
+_FONT_SIZE = 2
 _FONT_THICKNESS = 1
 _FPS_AVERAGE_FRAME_COUNT = 10
 
@@ -97,11 +97,11 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
   # Show classification results on the image
   for idx, category in enumerate(categories.classifications[0].categories):
     category_name = category.category_name
-    print(category_name)
     score = round(category.score, 2)
     result_text = category_name + ' (' + str(score) + ')'
     text_location = (_LEFT_MARGIN, (idx + 2) * _ROW_SIZE)
-    #cv2.putText(image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,_FONT_SIZE, _TEXT_COLOR, _FONT_THICKNESS)
+    cv2.putText(rgb_image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,_FONT_SIZE, _TEXT_COLOR, _FONT_THICKNESS)
+    print(result_text)
 
   # Calculate the FPS
   if counter % _FPS_AVERAGE_FRAME_COUNT == 0:
@@ -112,9 +112,10 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
   # Show the FPS
   fps_text = 'FPS = ' + str(int(fps))
   text_location = (_LEFT_MARGIN, _ROW_SIZE)
-  #cv2.putText(image, fps_text, text_location, cv2.FONT_HERSHEY_PLAIN,_FONT_SIZE, _TEXT_COLOR, _FONT_THICKNESS)
+  cv2.putText(rgb_image, fps_text, text_location, cv2.FONT_HERSHEY_PLAIN,_FONT_SIZE, _TEXT_COLOR, _FONT_THICKNESS)
 
   #cv2.imshow('image_classification', image)
+  cv2.imwrite("/home/pi/image2.jpg", rgb_image)
 
 #   cap.release()
 #   cv2.destroyAllWindows()
