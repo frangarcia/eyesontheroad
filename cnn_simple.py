@@ -55,7 +55,7 @@ from keras.applications.vgg19 import preprocess_input
 train_ds = train_ds.map(lambda x, y: (preprocess_input(x), y))
 val_ds = val_ds.map(lambda x, y: (preprocess_input(x), y))
 
-from keras.layers import Input, Dense, Flatten, Conv2D, MaxPooling2D, Dropout
+from keras.layers import Input, Dense, Flatten, Conv2D, BatchNormalization, MaxPooling2D, Dropout
 
 MODEL_SAVE_FOLDER = './models/cnn/cnn_simple/'
 if os.path.exists(MODEL_SAVE_FOLDER):
@@ -114,8 +114,8 @@ val_loss = history['val_loss']
 
 epochs = range(len(acc))
 
-plt.plot(epochs, acc, 'bo', label='Entrenamiento acc')
-plt.plot(epochs, val_acc, 'b', label='Validación acc')
+plt.plot(epochs, acc,  label='Entrenamiento acc', color='green')
+plt.plot(epochs, val_acc, label='Validación acc')
 plt.title('Accuracy - exactitud de entrenamiento y validación')
 plt.legend()
 plt.figure()
