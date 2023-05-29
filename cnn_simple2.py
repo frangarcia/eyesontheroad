@@ -1,8 +1,8 @@
 import tensorflow as tf
 from tensorflow import keras
-from keras.models import load_model
+from tensorflow.keras.models import load_model  # Update import statement
 from sklearn.model_selection import train_test_split
-from keras.layers import Input, Dense, Flatten, Conv2D, BatchNormalization, MaxPooling2D, Dropout
+from tensorflow.keras.layers import Input, Dense, Flatten, Conv2D, BatchNormalization, MaxPooling2D, Dropout  # Update import statement
 import matplotlib.pyplot as plt
 import os
 import pickle
