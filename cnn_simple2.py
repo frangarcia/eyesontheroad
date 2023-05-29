@@ -1,16 +1,18 @@
 import tensorflow as tf
 from tensorflow import keras
-from keras.applications.vgg19 import preprocess_input
+from tensorflow.keras.models import load_model  # Update import statement
 from sklearn.model_selection import train_test_split
-from keras.layers import Input, Dense, Flatten, Conv2D, BatchNormalization, MaxPooling2D, Dropout
+from tensorflow.keras.layers import Input, Dense, Flatten, Conv2D, BatchNormalization, MaxPooling2D, Dropout  # Update import statement
 import matplotlib.pyplot as plt
-import splitfolders
 import os
 import pickle
 from glob import glob
 from tqdm import tqdm
 from PIL import Image
 import numpy as np
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import pandas as pd
 
 UNSPLITTED_FOLDER_IMAGES = './datasets/dmd/binary_labels'
 SPLITTED_FOLDER_IMAGES = './datasets/dmd/binary_labels_split'
