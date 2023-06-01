@@ -8,9 +8,6 @@ datasets/dmd/Labels/
 
 hp/cnn_model/
 
-datasets/dmd/labels_split/
+datasets/dmd/
 
-datasets/dmd/binary_labels/
-
-datasets/dmd/binary_labels_split/
 /models/cnn/cnn_simple/
