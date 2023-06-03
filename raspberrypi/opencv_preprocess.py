@@ -1,50 +1,41 @@
 # pip install opencv-python
+# pip install PiCamera
 # git clone https://github.com/opencv/opencv.git
 import cv2
 import time
 from picamera import PiCamera
-from io import BytesIO
-import numpy as np
 
 face_cascade = cv2.CascadeClassifier('./haarcascade_frontalface_default.xml')
 fps_counter = 0
 start_time = time.time()
 
-# cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)
 
 def detect_face(img):
-    img_array = np.array(img)
-    gray = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
     for (x, y, w, h) in faces:
-        print(x, y, w, h)
         cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 0), 2)
     return img
 
 while(True):
+    ret, frame = cap.read()
 
-    camera = PiCamera()
-    camera.resolution = (640, 480)
-    frame = BytesIO()
-    camera.capture(frame, 'jpeg')
-
-    # ret, frame = cap.read()
-
-    frame = detect_face(np.frombuffer(image_bytes, np.uint8))
+    frame = detect_face(frame)
 
     fps_counter += 1
     elapsed_time = time.time() - start_time
     fps = fps_counter / elapsed_time
 
-    # cv2.imshow('frame', frame)
+    cv2.imshow('frame', frame)
 
     print(f"FPS: {fps}")
 
-    # if cv2.waitKey(1) & 0xFF == ord('q'):
-    #     break
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
 
-# cap.release()
-# cv2.destroyAllWindows()
+cap.release()
+cv2.destroyAllWindows()
 
 # let src = cv.imread('canvasInput');
 # let gray = new cv.Mat();
