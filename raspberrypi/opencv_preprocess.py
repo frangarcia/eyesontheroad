@@ -4,6 +4,7 @@ import cv2
 import time
 from picamera import PiCamera
 from io import BytesIO
+import numpy as np
 
 face_cascade = cv2.CascadeClassifier('./haarcascade_frontalface_default.xml')
 fps_counter = 0
@@ -28,7 +29,7 @@ while(True):
 
     # ret, frame = cap.read()
 
-    frame = detect_face(frame)
+    frame = detect_face(np.frombuffer(image_bytes, np.uint8))
 
     fps_counter += 1
     elapsed_time = time.time() - start_time
