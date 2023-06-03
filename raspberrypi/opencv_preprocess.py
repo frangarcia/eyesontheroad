@@ -13,32 +13,39 @@ start_time = time.time()
 # cap = cv2.VideoCapture(0)
 
 def detect_face(img):
-    img_array = np.array(img)
-    gray = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
+    #img_array = np.array(img)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    cv2.imwrite('/home/pi/cv.jpg', gray)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
     for (x, y, w, h) in faces:
         print(x, y, w, h)
         cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 0), 2)
     return img
 
+camera = PiCamera()
+camera.resolution = (640,480)
+camera.framerate = 10
+
 while(True):
 
-    camera = PiCamera()
-    camera.resolution = (640, 480)
-    frame = BytesIO()
-    camera.capture(frame, 'jpeg')
+  #camera = PiCamera()
+  #camera.resolution = (640, 480)
+  #camera.framerate = 24
+  frame = BytesIO()
+  output = np.empty((480, 640, 3), dtype=np.uint8)
+  camera.capture(output, 'bgr')
 
     # ret, frame = cap.read()
 
-    frame = detect_face(np.frombuffer(image_bytes, np.uint8))
+  frame = detect_face(output)
 
-    fps_counter += 1
-    elapsed_time = time.time() - start_time
-    fps = fps_counter / elapsed_time
+  fps_counter += 1
+  elapsed_time = time.time() - start_time
+  fps = fps_counter / elapsed_time
 
     # cv2.imshow('frame', frame)
 
-    print(f"FPS: {fps}")
+  print(f"FPS: {fps}")
 
     # if cv2.waitKey(1) & 0xFF == ord('q'):
     #     break
