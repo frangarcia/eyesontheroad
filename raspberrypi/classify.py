@@ -28,9 +28,11 @@ from time import sleep
 _ROW_SIZE = 20  # pixels
 _LEFT_MARGIN = 24  # pixels
 _TEXT_COLOR = (255, 255, 255)  # black
-_FONT_SIZE = 2
+_FONT_SIZE = 1
 _FONT_THICKNESS = 1
 _FPS_AVERAGE_FRAME_COUNT = 10
+_IMAGE_WIDTH = 640
+_IMAGE_HEIGHT = 480
 
 
 def run(model: str, max_results: int, score_threshold: float, num_threads: int,
@@ -68,7 +70,7 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
   start_time = time.time()
   print("starting PiCamera",time.time())
   camera = PiCamera()
-  camera.resolution = (224, 224)
+  camera.resolution = (_IMAGE_WIDTH, _IMAGE_HEIGHT)
   print("ending PiCamera",time.time())
 
   # Start capturing video input from the camera
