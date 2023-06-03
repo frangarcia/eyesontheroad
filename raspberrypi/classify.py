@@ -23,6 +23,7 @@ from tflite_support.task import processor
 from tflite_support.task import vision
 from picamera import PiCamera
 from time import sleep
+import numpy as np
 
 # Visualization parameters
 _ROW_SIZE = 20  # pixels
@@ -34,9 +35,12 @@ _FPS_AVERAGE_FRAME_COUNT = 10
 _IMAGE_WIDTH = 640
 _IMAGE_HEIGHT = 480
 
+def log(message, log):
+  if log:
+    print(message,time.time())
 
 def run(model: str, max_results: int, score_threshold: float, num_threads: int,
-        enable_edgetpu: bool, camera_id: int, width: int, height: int) -> None:
+        enable_edgetpu: bool, camera_id: int, width: int, height: int, logger: bool) -> None:
   """Continuously run inference on images acquired from the camera.
 
   Args:
@@ -50,7 +54,7 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
       height: The height of the frame captured from the camera.
   """
 
-  print("initializing options",time.time())
+  log("initializing options", logger)
   # Initialize the image classification model
   base_options = core.BaseOptions(
       file_name=model, use_coral=enable_edgetpu, num_threads=num_threads)
@@ -61,17 +65,17 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
   options = vision.ImageClassifierOptions(
       base_options=base_options, classification_options=classification_options)
 
-  print("starting classifier",time.time())
+  log("starting classifier", logger)
   classifier = vision.ImageClassifier.create_from_options(options)
-  print("ending classifier",time.time())
+  log("ending classifier", logger)
 
   # Variables to calculate FPS
   counter, fps = 0, 0
   start_time = time.time()
-  print("starting PiCamera",time.time())
+  log("starting PiCamera", logger)
   camera = PiCamera()
   camera.resolution = (_IMAGE_WIDTH, _IMAGE_HEIGHT)
-  print("ending PiCamera",time.time())
+  log("ending PiCamera", logger)
 
   # Start capturing video input from the camera
 #   cap = cv2.VideoCapture(camera_id)
@@ -88,27 +92,30 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
 
       #counter += 1
       #image = cv2.flip(image, 1)
-      print("starting preview",time.time())
-      camera.start_preview()
-      print("starting preview finished",time.time())
-      camera.capture('/home/pi/image1.jpg')
-      print("stopping preview",time.time())
-      camera.stop_preview()
-      print("stopping preview finished",time.time())
-      rgb_image = cv2.imread("/home/pi/image1.jpg", cv2.COLOR_BGR2RGB)
+      log("starting preview", logger)
+      #camera.start_preview()
+      log("starting preview finished", logger)
+      #camera.capture('/home/pi/image1.jpg')
+      output = np.empty((_IMAGE_HEIGHT, _IMAGE_WIDTH, 3), dtype=np.uint8)
+      camera.capture(output, 'bgr')
+      log("stopping preview", logger)
+      #camera.stop_preview()
+      log("stopping preview finished", logger)
+      #rgb_image = cv2.imread("/home/pi/image1.jpg", cv2.COLOR_BGR2RGB)
+      rgb_image = cv2.cvtColor(output, cv2.COLOR_BGR2RGB)
 
       # Convert the image from BGR to RGB as required by the TFLite model.
     #   rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
       # Create TensorImage from the RGB image
-      print("creating tensor image",time.time())
+      log("creating tensor image", logger)
       tensor_image = vision.TensorImage.create_from_array(rgb_image)
-      print("tensor image finished")
+      log("tensor image finished", logger)
 
       # List classification results
-      print("starting classification categories",time.time())
+      log("starting classification categories",logger)
       categories = classifier.classify(tensor_image)
-      print("stopping classification categories",time.time())
+      log("stopping classification categories",logger)
 
 
       # Show classification results on the image
@@ -180,11 +187,16 @@ def main():
       help='Height of frame to capture from camera.',
       required=False,
       default=480)
+  parser.add_argument(
+    '--logger',
+    help='Boolean deciding whether to be verbose.',
+    required=False,
+    default=False)
   args = parser.parse_args()
 
   run(args.model, int(args.maxResults),
       args.scoreThreshold, int(args.numThreads), bool(args.enableEdgeTPU),
-      int(args.cameraId), args.frameWidth, args.frameHeight)
+      int(args.cameraId), args.frameWidth, args.frameHeight, args.logger)
 
 
 if __name__ == '__main__':
