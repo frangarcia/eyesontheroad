@@ -1,7 +1,6 @@
 # pip install cmake
 # pip install dlib
 # pip install argparse
-# python transform_dataset.py --shape-predictor shape_predictor_68_face_landmarks.dat
 
 import cv2
 import glob2
