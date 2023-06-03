@@ -13,7 +13,8 @@ start_time = time.time()
 # cap = cv2.VideoCapture(0)
 
 def detect_face(img):
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img_array = np.array(img)
+    gray = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
     for (x, y, w, h) in faces:
         print(x, y, w, h)
