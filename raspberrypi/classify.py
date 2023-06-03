@@ -48,6 +48,7 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
       height: The height of the frame captured from the camera.
   """
 
+  print("initializing options")
   # Initialize the image classification model
   base_options = core.BaseOptions(
       file_name=model, use_coral=enable_edgetpu, num_threads=num_threads)
@@ -58,12 +59,16 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
   options = vision.ImageClassifierOptions(
       base_options=base_options, classification_options=classification_options)
 
+  print("starting classifier")
   classifier = vision.ImageClassifier.create_from_options(options)
+  print("ending classifier")
 
   # Variables to calculate FPS
   counter, fps = 0, 0
   start_time = time.time()
+  print("starting PiCamera")
   camera = PiCamera()
+  print("ending PiCamera")
 
   # Start capturing video input from the camera
 #   cap = cv2.VideoCapture(camera_id)
@@ -80,19 +85,28 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
 
   #counter += 1
   #image = cv2.flip(image, 1)
+  print("starting preview")
   camera.start_preview()
+  print("starting preview finished")
   camera.capture('/home/pi/image1.jpg')
+  print("stopping preview")
   camera.stop_preview()
+  print("stopping preview finished")
   rgb_image = cv2.imread("/home/pi/image1.jpg", cv2.COLOR_BGR2RGB)
 
   # Convert the image from BGR to RGB as required by the TFLite model.
 #   rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
   # Create TensorImage from the RGB image
+  print("creating tensor image")
   tensor_image = vision.TensorImage.create_from_array(rgb_image)
+  print("tensor image finished")
 
   # List classification results
+  print("starting classification categories")
   categories = classifier.classify(tensor_image)
+  print("stopping classification categories")
+
 
   # Show classification results on the image
   for idx, category in enumerate(categories.classifications[0].categories):
