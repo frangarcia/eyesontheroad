@@ -68,6 +68,7 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
   start_time = time.time()
   print("starting PiCamera",time.time())
   camera = PiCamera()
+  camera.resolution = (224, 224)
   print("ending PiCamera",time.time())
 
   # Start capturing video input from the camera
