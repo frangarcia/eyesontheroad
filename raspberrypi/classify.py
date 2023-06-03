@@ -28,9 +28,11 @@ from time import sleep
 _ROW_SIZE = 20  # pixels
 _LEFT_MARGIN = 24  # pixels
 _TEXT_COLOR = (255, 255, 255)  # black
-_FONT_SIZE = 2
+_FONT_SIZE = 1
 _FONT_THICKNESS = 1
 _FPS_AVERAGE_FRAME_COUNT = 10
+_IMAGE_WIDTH = 640
+_IMAGE_HEIGHT = 480
 
 
 def run(model: str, max_results: int, score_threshold: float, num_threads: int,
@@ -48,6 +50,7 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
       height: The height of the frame captured from the camera.
   """
 
+  print("initializing options",time.time())
   # Initialize the image classification model
   base_options = core.BaseOptions(
       file_name=model, use_coral=enable_edgetpu, num_threads=num_threads)
@@ -58,12 +61,17 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
   options = vision.ImageClassifierOptions(
       base_options=base_options, classification_options=classification_options)
 
+  print("starting classifier",time.time())
   classifier = vision.ImageClassifier.create_from_options(options)
+  print("ending classifier",time.time())
 
   # Variables to calculate FPS
   counter, fps = 0, 0
   start_time = time.time()
+  print("starting PiCamera",time.time())
   camera = PiCamera()
+  camera.resolution = (_IMAGE_WIDTH, _IMAGE_HEIGHT)
+  print("ending PiCamera",time.time())
 
   # Start capturing video input from the camera
 #   cap = cv2.VideoCapture(camera_id)
@@ -71,54 +79,63 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
 #   cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
   # Continuously capture images from the camera and run inference
-  #while cap.isOpened():
-    #success, image = cap.read()
-    #if not success:
-    #  sys.exit(
-    #      'ERROR: Unable to read from webcam. Please verify your webcam settings.'
-    #  )
+  while True:
+        #success, image = cap.read()
+        #if not success:
+        #  sys.exit(
+        #      'ERROR: Unable to read from webcam. Please verify your webcam settings.'
+        #  )
 
-  #counter += 1
-  #image = cv2.flip(image, 1)
-  camera.start_preview()
-  camera.capture('/home/pi/image1.jpg')
-  camera.stop_preview()
-  rgb_image = cv2.imread("/home/pi/image1.jpg", cv2.COLOR_BGR2RGB)
+      #counter += 1
+      #image = cv2.flip(image, 1)
+      print("starting preview",time.time())
+      camera.start_preview()
+      print("starting preview finished",time.time())
+      camera.capture('/home/pi/image1.jpg')
+      print("stopping preview",time.time())
+      camera.stop_preview()
+      print("stopping preview finished",time.time())
+      rgb_image = cv2.imread("/home/pi/image1.jpg", cv2.COLOR_BGR2RGB)
 
-  # Convert the image from BGR to RGB as required by the TFLite model.
-#   rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+      # Convert the image from BGR to RGB as required by the TFLite model.
+    #   rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-  # Create TensorImage from the RGB image
-  tensor_image = vision.TensorImage.create_from_array(rgb_image)
+      # Create TensorImage from the RGB image
+      print("creating tensor image",time.time())
+      tensor_image = vision.TensorImage.create_from_array(rgb_image)
+      print("tensor image finished")
 
-  # List classification results
-  categories = classifier.classify(tensor_image)
+      # List classification results
+      print("starting classification categories",time.time())
+      categories = classifier.classify(tensor_image)
+      print("stopping classification categories",time.time())
 
-  # Show classification results on the image
-  for idx, category in enumerate(categories.classifications[0].categories):
-    category_name = category.category_name
-    score = round(category.score, 2)
-    result_text = category_name + ' (' + str(score) + ')'
-    text_location = (_LEFT_MARGIN, (idx + 2) * _ROW_SIZE)
-    cv2.putText(rgb_image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,_FONT_SIZE, _TEXT_COLOR, _FONT_THICKNESS)
-    print(result_text)
 
-  # Calculate the FPS
-  if counter % _FPS_AVERAGE_FRAME_COUNT == 0:
-    end_time = time.time()
-    fps = _FPS_AVERAGE_FRAME_COUNT / (end_time - start_time)
-    start_time = time.time()
+      # Show classification results on the image
+      for idx, category in enumerate(categories.classifications[0].categories):
+        category_name = category.category_name
+        score = round(category.score, 2)
+        result_text = category_name + ' (' + str(score) + ')'
+        text_location = (_LEFT_MARGIN, (idx + 2) * _ROW_SIZE)
+        cv2.putText(rgb_image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,_FONT_SIZE, _TEXT_COLOR, _FONT_THICKNESS)
+        print(result_text)
 
-  # Show the FPS
-  fps_text = 'FPS = ' + str(int(fps))
-  text_location = (_LEFT_MARGIN, _ROW_SIZE)
-  cv2.putText(rgb_image, fps_text, text_location, cv2.FONT_HERSHEY_PLAIN,_FONT_SIZE, _TEXT_COLOR, _FONT_THICKNESS)
+      # Calculate the FPS
+      if counter % _FPS_AVERAGE_FRAME_COUNT == 0:
+        end_time = time.time()
+        fps = _FPS_AVERAGE_FRAME_COUNT / (end_time - start_time)
+        start_time = time.time()
 
-  #cv2.imshow('image_classification', image)
-  cv2.imwrite("/home/pi/image2.jpg", rgb_image)
+      # Show the FPS
+      fps_text = 'FPS = ' + str(int(fps))
+      text_location = (_LEFT_MARGIN, _ROW_SIZE)
+      cv2.putText(rgb_image, fps_text, text_location, cv2.FONT_HERSHEY_PLAIN,_FONT_SIZE, _TEXT_COLOR, _FONT_THICKNESS)
 
-#   cap.release()
-#   cv2.destroyAllWindows()
+      #cv2.imshow('image_classification', image)
+      cv2.imwrite("/home/pi/image2.jpg", rgb_image)
+
+    #   cap.release()
+    #   cv2.destroyAllWindows()
 
 
 def main():
