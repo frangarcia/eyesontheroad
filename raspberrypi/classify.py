@@ -23,6 +23,7 @@ from tflite_support.task import processor
 from tflite_support.task import vision
 from picamera import PiCamera
 from time import sleep
+import numpy as np
 
 # Visualization parameters
 _ROW_SIZE = 20  # pixels
@@ -92,13 +93,16 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
       #counter += 1
       #image = cv2.flip(image, 1)
       log("starting preview", logger)
-      camera.start_preview()
+      #camera.start_preview()
       log("starting preview finished", logger)
-      camera.capture('/home/pi/image1.jpg')
+      #camera.capture('/home/pi/image1.jpg')
+      output = np.empty((_IMAGE_HEIGHT, _IMAGE_WIDTH, 3), dtype=np.uint8)
+      camera.capture(output, 'bgr')
       log("stopping preview", logger)
-      camera.stop_preview()
+      #camera.stop_preview()
       log("stopping preview finished", logger)
-      rgb_image = cv2.imread("/home/pi/image1.jpg", cv2.COLOR_BGR2RGB)
+      #rgb_image = cv2.imread("/home/pi/image1.jpg", cv2.COLOR_BGR2RGB)
+      rgb_image = cv2.cvtColor(output, cv2.COLOR_BGR2RGB)
 
       # Convert the image from BGR to RGB as required by the TFLite model.
     #   rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
