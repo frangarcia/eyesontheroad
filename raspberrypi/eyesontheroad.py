@@ -60,19 +60,21 @@ model = joblib.load('rfgrid.pkl')
 camera = PiCamera()
 camera.resolution = (_IMAGE_WIDTH, _IMAGE_HEIGHT)
 
-img = np.empty((_IMAGE_HEIGHT, _IMAGE_WIDTH, 3), dtype=np.uint8)
-camera.capture(img, 'bgr')
+while True:
+  img = np.empty((_IMAGE_HEIGHT, _IMAGE_WIDTH, 3), dtype=np.uint8)
+  camera.capture(img, 'bgr')
+  #cv2.imwrite("/home/pi/image3.jpg", img)
 
-# img = cv2.imread(file_path)
-ratios = get_landmarks_ratios(img)
-if img is not None and ratios is not None:
-  features = np.array([ratios])
-  features = features.reshape(1, -1)
-  predictions = model.predict(features)
-  print(predictions)
-  print('Awake' if predictions[0] else 'Drowsy')
-else:
-  print('No faces detected in the image.')
+  # img = cv2.imread(file_path)
+  ratios = get_landmarks_ratios(img)
+  if img is not None and ratios is not None:
+    features = np.array([ratios])
+    features = features.reshape(1, -1)
+    predictions = model.predict(features)
+    print(predictions)
+    print('Awake' if predictions[0] else 'Drowsy')
+  else:
+    print('No faces detected in the image.')
 
 
 
