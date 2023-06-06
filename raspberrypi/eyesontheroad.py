@@ -12,7 +12,7 @@ _IMAGE_WIDTH = 640
 _IMAGE_HEIGHT = 480
 
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor('datasets/dlib/shape_predictor_68_face_landmarks.dat')
+predictor = dlib.shape_predictor('../datasets/dlib/shape_predictor_68_face_landmarks.dat')
 
 def get_landmarks_ratios(frame):
   frame = imutils.resize(frame, width=640)
