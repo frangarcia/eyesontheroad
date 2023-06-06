@@ -63,7 +63,7 @@ camera.resolution = (_IMAGE_WIDTH, _IMAGE_HEIGHT)
 while True:
   img = np.empty((_IMAGE_HEIGHT, _IMAGE_WIDTH, 3), dtype=np.uint8)
   camera.capture(img, 'bgr')
-  cv2.imwrite("/home/pi/image3.jpg", img)
+  #cv2.imwrite("/home/pi/image3.jpg", img)
 
   # img = cv2.imread(file_path)
   ratios = get_landmarks_ratios(img)
