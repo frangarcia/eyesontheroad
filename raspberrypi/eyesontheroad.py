@@ -54,7 +54,7 @@ def get_landmarks_ratios(frame):
   return left_ear, right_ear, mouth_ar
 
 # Load the saved model
-model = joblib.load('clf.pkl')
+model = joblib.load('rfgrid.pkl')
 
 # Load the PiCamera
 camera = PiCamera()
