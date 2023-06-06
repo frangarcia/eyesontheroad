@@ -1,10 +1,7 @@
 import joblib
-import sklearn
 import cv2
 import numpy as np
 import dlib
-import glob2
-import os
 import imutils
 from matplotlib import pyplot as plt
 from imutils import face_utils
