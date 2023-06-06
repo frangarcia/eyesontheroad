@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import dlib
 import imutils
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 from imutils import face_utils
 from picamera import PiCamera
 from scipy.spatial import distance as dist
