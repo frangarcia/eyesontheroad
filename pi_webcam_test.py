@@ -72,11 +72,13 @@ import cv2
 cap = cv2.VideoCapture(0)
 frame_count = 0
 start_time = time.time()
+font_size = 0.5
 
 while True:
     ret, frame = cap.read()
     frame = imutils.resize(frame, width=640)
     frame_count += 1
+    frame_height = frame.shape[0]
 
     output = get_landmarks_ratios(frame)
     if output is not None:
@@ -86,15 +88,15 @@ while True:
         predictions = model.predict(features)
         status = 'Awake' if predictions[0] else 'Drowsy'
 
-        # if status == 'Drowsy':
-        #     beepy.beep(sound='coin')
+        cv2.putText(frame, status, (10,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
 
-        cv2.putText(frame, status, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+        ratiosr = [round(ratio, 2) for ratio in ratios]
+        cv2.putText(frame, f'Ratios: {ratiosr}', (10, frame_height - 40), cv2.FONT_HERSHEY_SIMPLEX, font_size, (0, 255, 0), 2)
 
-    # Calculate frames per second (FPS) every frame
+
     elapsed_time = time.time() - start_time
     fps = frame_count / elapsed_time
-    cv2.putText(frame, 'FPS: {:.2f}'.format(fps), (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    cv2.putText(frame, 'FPS: {:.2f}'.format(fps), (10, frame_height - 20), cv2.FONT_HERSHEY_SIMPLEX, font_size, (0, 255, 0), 2)
 
 
     cv2.imshow('Webcam Output', frame)
