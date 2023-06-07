@@ -6,6 +6,7 @@ import dlib
 import imutils
 from imutils import face_utils
 from scipy.spatial import distance as dist
+from sklearn.preprocessing import MinMaxScaler
 import beepy
 
 detector = dlib.get_frontal_face_detector()
