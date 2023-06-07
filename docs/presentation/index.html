@@ -37,7 +37,7 @@
 						The cause of four out of ten accidents in Spain is drivers getting sleepy. Source: <a href="https://www.heraldo.es/noticias/nacional/2023/04/04/dormirse-volante-responsable-muertes-carretera-1643049.html">Heraldo</a>
 					</p>
 					<p>
-						<img src="images/accident.jpg" alt="Accident"/>
+						<img src="images/accident.jpg" alt="Accident" width="40%" />
 					</p>
 				</section>
 				<section>
@@ -48,7 +48,7 @@
 				</section>
 
 				<section>
-					<h2>Neural network</h2>
+					<h2>Machine Learning</h2>
 					<p>
 						<img src="images/neural-network.png" alt="Neural network">
 					</p>
@@ -83,66 +83,58 @@
 				<section>
 					<h2>Video dataset source</h2>
 					<p>
-						Lorem ipsum dolor sit amet
+						Data set of synthetic videos with different types of situations that allow the analysis of multiple driving situations.
 					</p>
 					<p>
-						<img src="images/dmd_features.png"/>
+						<img src="images/dmd_features.png" width="80%"/>
 					</p>
 				</section>
 
 				<section>
 					<h2>Video dataset source</h2>
 					<p>
-						Lorem ipsum dolor sit amet
+						Different cameras allow to take different angles of view and take a multitude of data from the scene.
 					</p>
 					<p>
-						<img src="images/dmd_example.jpg"/>
+						<img src="images/dmd_example.jpg" width="70%"/>
 					</p>
 				</section>
 
 				<section>
 					<h2>Video dataset transformation</h2>
 					<p>
-						Lorem ipsum dolor sit amet
+						The dataset has tags that allow categorizing whether the driver is falling asleep. However, these data have been transformed to train predictive models.
 					</p>
 					<p>
-						<img src="images/dmd_dataset_json.png"/>
+						<img src="images/dmd_dataset_json.png" width="50%"/>
 					</p>
 				</section>
 
 				<section>
 					<h2>Features extraction DLIB</h2>
 					<p>
-						Lorem ipsum dolor sit amet
+						By means of DLIB feature extraction, the most important points of each driver's face were located in the image.
 					</p>
 					<p>
-						<img src="images/facial_landmarks_68markup.webp"/>
+						<table>
+							<tr>
+								<td style="vertical-align: middle !important;">
+									<img src="images/facial_landmarks_68markup.webp" width="90%"/>
+								</td>
+								<td style="vertical-align: middle !important;"> 
+									<img src="images/blink_detection_equation.webp" width="80%"/>
+									<img src="images/blink_detection_plot.webp" width="80%"/>
+								</td>
+							</tr>
+						</table>
 					</p>
 				</section>
 
-				<section>
-					<h2>Features extraction DLIB</h2>
-					<p>
-						Lorem ipsum dolor sit amet
-					</p>
-					<p>
-						<img src="images/blink_detection_equation.webp"/>
-					</p>
-				</section>
-
-				<section>
-					<h2>Features extraction DLIB</h2>
-					<p>
-						Lorem ipsum dolor sit amet
-					</p>
-					<p>
-						<img src="images/blink_detection_plot.webp"/>
-					</p>
-				</section>
+				
 
 				<section>
 					<h2>Data preprocessing</h2>
-					<p>CSV conversion</p>
+					<p>CSV conversion with the values of the previous EAR result for the eye and mouth positions. The variable AWAKE indicates whether the driver is awake or drowsy.</p>
 					<p>
 						<img src="images/df_head.png"/>
 					</p>
@@ -150,22 +142,23 @@
 
 				<section>
 					<h2>Data analysis</h2>
-					<p>nulls, median, balances</p>
+					<p>Descriptive analysis of the variables used.</p>
 					<p>
-						<img src="images/df_describe.png"/>
+						<img src="images/df_describe.png" width="50%"/>
 					</p>
 				</section>
 
 				<section>
 					<h2>Data analysis</h2>
-					<p>nulls, median, balances</p>
+					<p>Sampling of the distribution of continuous variables</p>
 					<p>
-						<img src="images/df_scatter_matrix.png"/>
+						<img src="images/df_scatter_matrix.png" width="50%"/>
 					</p>
 				</section>
 
 				<section>
 					<h2>Model selection and training</h2>
+					<p>The data are separated into sets for supervised training, using the AWAKE binary tag.</p>
 					<p>
 						<img src="images/df_training.png"/>
 					</p>
@@ -173,15 +166,17 @@
 
 				<section>
 					<h2>Model selection and training</h2>
+					<p>Cross-validation allows to obtain the best selection of hyperparameters in the selected model, optimizing the training result.</p>
 					<p>
-						<img src="images/model_training.png"/>
+						<img src="images/model_training.png" width="80%"/>
 					</p>
 				</section>
 
 				<section>
 					<h2>Results evaluation</h2>
+					<p>The confusion matrix shows the false positives and negatives that our model detects, this value being quite low compared to the accurate predictions.</p>
 					<p>
-						<img src="images/confusion_matrix.png"/>
+						<img src="images/confusion_matrix.png" width="50%"/>
 					</p>
 				</section>
 
