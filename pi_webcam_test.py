@@ -5,6 +5,7 @@ import dlib
 import imutils
 from imutils import face_utils
 from scipy.spatial import distance as dist
+import beepy
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('./datasets/dlib/shape_predictor_68_face_landmarks.dat')
@@ -68,12 +69,21 @@ cap = cv2.VideoCapture(0)
 while True:
     ret, frame = cap.read()
 
+
     ratios = get_landmarks_ratios(frame)
     if ratios is not None:
         features = np.array([ratios])
         features = features.reshape(1, -1)
         predictions = model.predict(features)
-        print('Awake' if predictions[0] else 'Drowsy')
+        status = 'Awake' if predictions[0] else 'Drowsy'
+
+        if status == 'Drowsy':
+            beepy.beep(sound='coin')
+
+        cv2.putText(frame, status, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+
+    cv2.imshow('Webcam Output', frame)
+
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
