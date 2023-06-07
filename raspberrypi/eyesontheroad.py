@@ -10,6 +10,7 @@ from scipy.spatial import distance as dist
 
 _IMAGE_WIDTH = 640
 _IMAGE_HEIGHT = 480
+_CONSECUTIVE_DROWSY_ALARM = 3
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('../datasets/dlib/shape_predictor_68_face_landmarks.dat')
@@ -59,7 +60,7 @@ model = joblib.load('rfgrid.pkl')
 # Load the PiCamera
 camera = PiCamera()
 camera.resolution = (_IMAGE_WIDTH, _IMAGE_HEIGHT)
-
+consecutive_drowsy = 0
 while True:
   img = np.empty((_IMAGE_HEIGHT, _IMAGE_WIDTH, 3), dtype=np.uint8)
   camera.capture(img, 'bgr')
@@ -71,7 +72,12 @@ while True:
     features = np.array([ratios])
     features = features.reshape(1, -1)
     predictions = model.predict(features)
-    print(predictions)
+    if predictions[0] == 0:
+      consecutive_drowsy += 1
+    else:
+      consecutive_drowsy = 0
+    if consecutive_drowsy > _CONSECUTIVE_DROWSY_ALARM:
+      print('\a')
     print('Awake' if predictions[0] else 'Drowsy')
   else:
     print('No faces detected in the image.')
