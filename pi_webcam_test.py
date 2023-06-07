@@ -11,6 +11,7 @@ detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('./datasets/dlib/shape_predictor_68_face_landmarks.dat')
 model = joblib.load('./models/landmarks/rfgrid.pkl')
 
+
 def get_landmarks_ratios(frame):
 
     frame = imutils.resize(frame, width=640)
@@ -31,6 +32,9 @@ def get_landmarks_ratios(frame):
             largest_face = face
 
     shape = predictor(gray, largest_face)
+
+    x_ini, y_ini, x_fin, y_fin = largest_face.left(), largest_face.top(), largest_face.right(), largest_face.bottom()
+    cv2.rectangle(frame, (x_ini, y_ini), (x_fin, y_fin), (0, 255, 0), 1)
 
     # Extracting the indices of the facial features
     (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
@@ -60,30 +64,30 @@ def get_landmarks_ratios(frame):
     right_ear = eye_aspect_ratio(right_eye)
     mouth_ar = mouth_aspect_ratio(mouth)
 
-    return left_ear, right_ear, mouth_ar
+    return [left_ear, right_ear, mouth_ar], frame
+
 
 import cv2
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 while True:
     ret, frame = cap.read()
 
-
-    ratios = get_landmarks_ratios(frame)
-    if ratios is not None:
-        features = np.array([ratios])
+    output = get_landmarks_ratios(frame)
+    if output is not None:
+        ratios, frame = output
+        features = np.array(ratios)
         features = features.reshape(1, -1)
         predictions = model.predict(features)
         status = 'Awake' if predictions[0] else 'Drowsy'
 
-        if status == 'Drowsy':
-            beepy.beep(sound='coin')
+        # if status == 'Drowsy':
+        #     beepy.beep(sound='coin')
 
         cv2.putText(frame, status, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
     cv2.imshow('Webcam Output', frame)
-
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

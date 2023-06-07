@@ -27,7 +27,6 @@ def detect_face(img):
     print(f"largest_face: {largest_rect}")
     (x, y, w, h) = (largest_rect.left(), largest_rect.top(), largest_rect.width(), largest_rect.height())
 
-    # return img[y:y + h, x:x + w]
     return img
 
 
