@@ -1,5 +1,6 @@
 import joblib
 import cv2
+import time
 import numpy as np
 import dlib
 import imutils
@@ -13,8 +14,6 @@ model = joblib.load('./models/landmarks/rfgrid.pkl')
 
 
 def get_landmarks_ratios(frame):
-
-    frame = imutils.resize(frame, width=640)
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -33,6 +32,7 @@ def get_landmarks_ratios(frame):
 
     shape = predictor(gray, largest_face)
 
+    #print the face rectangle
     x_ini, y_ini, x_fin, y_fin = largest_face.left(), largest_face.top(), largest_face.right(), largest_face.bottom()
     cv2.rectangle(frame, (x_ini, y_ini), (x_fin, y_fin), (0, 255, 0), 1)
 
@@ -69,10 +69,14 @@ def get_landmarks_ratios(frame):
 
 import cv2
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
+frame_count = 0
+start_time = time.time()
 
 while True:
     ret, frame = cap.read()
+    frame = imutils.resize(frame, width=640)
+    frame_count += 1
 
     output = get_landmarks_ratios(frame)
     if output is not None:
@@ -86,6 +90,12 @@ while True:
         #     beepy.beep(sound='coin')
 
         cv2.putText(frame, status, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+
+    # Calculate frames per second (FPS) every frame
+    elapsed_time = time.time() - start_time
+    fps = frame_count / elapsed_time
+    cv2.putText(frame, 'FPS: {:.2f}'.format(fps), (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+
 
     cv2.imshow('Webcam Output', frame)
 
