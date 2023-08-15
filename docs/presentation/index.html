@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/solarized.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Eyes on the road</h1>
+				</section>
+				<section>
+					<h2>Saturday's AI</h2>
+					<p>
+						As part of Saturday's AI, we had to develop an AI project using some of the techniques we have learned during the course. One key aspect was the project had to be a social one.
+					</p>
+				</section>
+				<section>
+					<h2>What have we done?</h2>
+					<p>
+						What is more social than saving lives?
+					</p>
+				</section>
+				<section>
+					<h2>Background</h2>
+					<p>
+						The cause of four out of ten accidents in Spain is drivers getting sleepy. Source: <a href="https://www.heraldo.es/noticias/nacional/2023/04/04/dormirse-volante-responsable-muertes-carretera-1643049.html">Heraldo</a>
+					</p>
+					<p>
+						<img src="images/accident.jpg" alt="Accident" width="40%" />
+					</p>
+				</section>
+				<section>
+					<h2>The project</h2>
+					<p>
+						Let's create a model to identify when a driver is getting sleepy while driving and put it in a low-cost device like a Raspberry PI so everybody can install it in their cars.
+					</p>
+				</section>
+
+				<section>
+					<h2>Machine Learning</h2>
+					<p>
+						<img src="images/machine-learning-ejemplos-sector-fintech.jpg"/>
+					</p>
+				</section>
+				<section>
+					<h2>Plus</h2>
+					<p>
+						<img src="images/plus.jpeg" alt="Plus">
+					</p>
+				</section>
+
+				<section>
+					<h2>Raspberry PI</h2>
+					<p>
+						<img src="images/raspberry.jpeg" alt="Raspberry PI">
+					</p>
+				</section>
+				<section>
+					<h2>Equals to</h2>
+					<p>
+						<img src="images/equal.jpeg" alt="Equals to">
+					</p>
+				</section>
+				<section>
+					<h2>Less accidents</h2>
+					<p>
+						<img src="images/accident-cross.jpg" alt="No accidents">
+					</p>
+				</section>
+
+
+				<section>
+					<h2>Video dataset source</h2>
+					<p>
+						Data set of synthetic videos with different types of situations that allow the analysis of multiple driving situations.
+					</p>
+					<p>
+						<img src="images/dmd_features.png" width="80%"/>
+					</p>
+				</section>
+
+				<section>
+					<h2>Video dataset source</h2>
+					<p>
+						Different cameras allow to take different angles of view and take a multitude of data from the scene.
+					</p>
+					<p>
+						<img src="images/dmd_example.jpg" width="70%"/>
+					</p>
+				</section>
+
+				<section>
+					<h2>Video dataset transformation</h2>
+					<p>
+						The dataset has tags that allow categorizing whether the driver is falling asleep. However, these data have been transformed to train predictive models.
+					</p>
+					<p>
+						<img src="images/dmd_dataset_json.png" width="50%"/>
+					</p>
+				</section>
+
+				<section>
+					<h2>Features extraction DLIB</h2>
+					<p>
+						By means of DLIB feature extraction, the most important points of each driver's face were located in the image.
+					</p>
+					<p>
+						<table>
+							<tr>
+								<td style="vertical-align: middle !important;">
+									<img src="images/facial_landmarks_68markup.webp" width="90%"/>
+								</td>
+								<td style="vertical-align: middle !important;"> 
+									<img src="images/blink_detection_equation.webp" width="80%"/>
+									<img src="images/blink_detection_plot.webp" width="80%"/>
+								</td>
+							</tr>
+						</table>
+					</p>
+				</section>
+
+				
+
+				<section>
+					<h2>Data preprocessing</h2>
+					<p>CSV conversion with the values of the previous EAR result for the eye and mouth positions. The variable AWAKE indicates whether the driver is awake or drowsy.</p>
+					<p>
+						<img src="images/df_head.png"/>
+					</p>
+				</section>
+
+				<section>
+					<h2>Data analysis</h2>
+					<p>Descriptive analysis of the variables used.</p>
+					<p>
+						<img src="images/df_describe.png" width="50%"/>
+					</p>
+				</section>
+
+				<section>
+					<h2>Data analysis</h2>
+					<p>Sampling of the distribution of continuous variables</p>
+					<p>
+						<img src="images/df_scatter_matrix.png" width="50%"/>
+					</p>
+				</section>
+
+				<section>
+					<h2>Model selection and training</h2>
+					<p>The data are separated into sets for supervised training, using the AWAKE binary tag.</p>
+					<p>
+						<img src="images/df_training.png"/>
+					</p>
+				</section>
+
+				<section>
+					<h2>Model selection and training</h2>
+					<p>Cross-validation allows to obtain the best selection of hyperparameters in the selected model, optimizing the training result.</p>
+					<p>
+						<img src="images/model_training.png" width="80%"/>
+					</p>
+				</section>
+
+				<section>
+					<h2>Results evaluation</h2>
+					<p>The confusion matrix shows the false positives and negatives that our model detects, this value being quite low compared to the accurate predictions.</p>
+					<p>
+						<img src="images/confusion_matrix.png" width="50%"/>
+					</p>
+				</section>
+
+				<section>
+					<h2>Results evaluation</h2>
+					<p>
+						<img src="images/model_evaluation_stats.png"/>
+					</p>
+				</section>
+				<section>
+					<h2>Raspberry Pi Demo</h2>
+					<p>
+						<iframe width="840" height="472" src="https://www.youtube.com/embed/w8PRt0f7nVg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+					</p>
+				</section>
+
+
+
+				<!--				<section>-->
+<!--				  <pre><code data-trim data-noescape>-->
+<!--				(def lazy-fib-->
+<!--				  (concat-->
+<!--				   [0 1]-->
+<!--				   ((fn rfib [a b]-->
+<!--						(lazy-cons (+ a b) (rfib b (+ a b)))) 0 1)))-->
+<!--				  </code></pre>-->
+<!--				</section>-->
+				<section>
+					<h2>Links</h2>
+					<ul>
+						<li><a href="https://dmd.vicomtech.org/" target="_blank">DMD video dataset</a></li>
+						<li><a href="https://pyimagesearch.com/2017/04/24/eye-blink-detection-opencv-python-dlib/" target="_blank">DLIB Features extraction</a> </li>
+					</ul>
+				</section>
+				<section>
+					<h2>The authors</h2>
+					<ul>
+						<li>David Pérez Vicens <a href="https://github.com/davidpv" target="_blank">@davidpv</a></li>
+						<li>Placido Antonio López Ávila <a href="https://github.com/PlacidoAntonio" target="_blank">@PlacidoAntonio</a></li>
+						<li>Francisco José García Rico <a href="https://github.com/frangarcia" target="_blank">@frangarcia</a></li>
+					</ul>
+				</section>
+				<section>
+					<h2>More info</h2>
+					<p>
+						<img src="images/qrcode.png" alt="QR Code">
+					</p>
+				</section>
+				<section>
+					<h1>Questions?</h1>
+				</section>
+				<section>
+					<h1>Thanks!</h1>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+
+			});
+		</script>
+	</body>
+</html>
