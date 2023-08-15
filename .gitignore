@@ -1,13 +1,3 @@
 .idea
 .DS_Store
-/hp/eyes_on_the_road/
-
-datasets/dmd/Raw/
-
-datasets/dmd/Labels/
-
-hp/cnn_model/
-
 datasets/dmd/
-
-/models/cnn/cnn_simple/
